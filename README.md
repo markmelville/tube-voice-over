@@ -26,3 +26,17 @@ https://github.com/Rob--W/chrome-api/blob/master/patch-worker/patch-worker.js
 
 https://webrtc.github.io/samples/src/content/devices/input-output/
 https://github.com/cwilso/AudioRecorder
+
+## TODO
+
+save in mono (1 h)
+save as mp3 or mp4 (4 hr)
+http://audior.ec/blog/recording-mp3-using-only-html5-and-javascript-recordmp3-js/
+uploading files directly to Google Drive (8 hr)
+https://developers.google.com/api-client-library/javascript/features/authentication
+<script src="https://apis.google.com/js/api.js"></script>
+https://developers.google.com/drive/v3/web/simple-upload
+https://developers.google.com/drive/v3/reference/files/create
+
+optional:
+see if I can prevent the next clip from loading

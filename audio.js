@@ -77,17 +77,24 @@ function stopRecording() {
     audioRecorder.stop();
     console.log("stopping recording");
     isRecording = false;
-    audioRecorder.getBuffers( gotBuffers );
-}
-
-function gotBuffers( buffers ) {
-    audioRecorder.exportWAV( doneEncoding );
+    audioRecorder.getBuffers(buffers => audioRecorder.exportWAV( doneEncoding ));
 }
 
 function doneEncoding( blob ) {
-    var fileName = "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav";
+    var title = $("h1").text();
     var url = (window.URL || window.webkitURL).createObjectURL(blob);
-    takes[fileName] = url;
-    chrome.runtime.sendMessage({kind: "audioReady", "filename": fileName, "downloadUrl": url });
+    takes[title+recIndex] = {
+        "kind": "audioReady",
+        "title": title,
+        "sequence": recIndex,
+        "extension": ".wav",
+        "downloadUrl": url
+    };
+    chrome.runtime.sendMessage({
+        "kind": "audioReady",
+        "title": title,
+        "sequence": recIndex,
+        "extension": ".wav",
+        "downloadUrl": url });
     recIndex++;
 }

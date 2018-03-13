@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener(
                 vid.removeEventListener('ended',onEnd,false);
             }
         } else if (request.action === "init") {
-            navigator.mediaDevices.enumerateDevices().then(gotDevices);
+            //navigator.mediaDevices.enumerateDevices().then(gotDevices);
             sendResponse({"isAudioCaptured":isAudioCaptured,"takes":takes});
         }
         
@@ -32,7 +32,6 @@ function onEnd() {
     capture();
     vid.removeEventListener('ended',onEnd,false);
 }
-
 
 function gotDevices(deviceInfos) {
     // Handles being called several times to update labels. Preserve values.

@@ -9,7 +9,10 @@ function sendToPage(message, callback) {
 // get page state
 sendToPage({"action":"init"}, state => {
     if (state) {
-        Object.keys(state.takes).forEach(name => audioReady(name, state.takes[name]));
+        Object.keys(state.takes).forEach(name => {
+            var data = state.takes[name]
+            audioReady(data.title, data.sequence, data.extension, data.downloadUrl);
+        });
         if (state.isAudioCaptured) {
             $("button").text("Stop");
         }
@@ -20,15 +23,15 @@ sendToPage({"action":"init"}, state => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.kind === "audioReady") {
         $("button").text("Record");
-        audioReady(request.filename, request.downloadUrl);
-    } else if (request.kind === "mics") {
-        //$("button").text("Record");
-        //audioReady(request.filename, request.downloadUrl);
+        audioReady(request.title, request.sequence, request.extension, request.downloadUrl);
     }
 });
 
-function audioReady(filename, downloadUrl) {
-    var thing = $('<div><hr/><p>'+filename+'</p><a href="'+downloadUrl+'" download="'+filename+'">Download</a></div>').appendTo("#main");
+function audioReady(title, sequence, extension, downloadUrl) {
+    var paddedNum = ("00" + sequence).substr(-2,2);
+    var scrubbedTitle = title.replace(" ","_").replace("/","").replace(":","");
+    var filename = scrubbedTitle + "-EN-" + paddedNum + extension;
+    var thing = $('<div><hr/><p>'+filename+'</p><a style="float:right;" href="#">Upload</a><a href="'+downloadUrl+'" download="'+filename+'">Save File</a></div>').appendTo("#main");
 }
 
 // setup page events
